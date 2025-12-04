@@ -2,7 +2,27 @@
 
 The goal of this fork is to simplify it for my own (the common?) use case.
 - [x] Remove Python
-- [ ] Simplify and shorten some messages
+- [x] Simplify and shorten some messages
+
+## Installation
+
+Add to your Claude Desktop config (`%APPDATA%\Claude\claude_desktop_config.json` on Windows, `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "denoSandbox": {
+      "command": "npx",
+      "args": [
+        "github:turbokettle/mcp-deno-simple",
+        "--allow-net=icanhazip.com,example.com"
+      ]
+    }
+  }
+}
+```
+
+---
 
 # Deno Sandbox MCP Server
 
@@ -44,19 +64,19 @@ I have also chosen to sacrifice some performance by not reusing pyodide environm
 * Simon Willison's [Pyodide sandboxing experiments](https://til.simonwillison.net/deno/pyodide-sandbox)
 * Pydantics's [MCP Run Python](https://github.com/pydantic/pydantic-ai/tree/main/mcp-run-python)
 
-## Usage with Claude Desktop
+## ~~Usage with Claude Desktop~~
 
-This MCP should work with a range of MCP clients.
+~~This MCP should work with a range of MCP clients.~~
 
-You either need [Node.js](https://nodejs.org/) or [Deno](https://deno.com/) installed.  You don't need both.
+~~You either need [Node.js](https://nodejs.org/) or [Deno](https://deno.com/) installed.  You don't need both.~~
 
-To use this MCP server with Claude Desktop, add it to your `claude_desktop_config.json` in:
+~~To use this MCP server with Claude Desktop, add it to your `claude_desktop_config.json` in:~~
 
-* macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-* Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+* ~~macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`~~
+* ~~Windows: `%APPDATA%\Claude\claude_desktop_config.json`~~
 
 
-*If you have Deno installed*
+~~*If you have Deno installed*~~
 ```json
 {
   "mcpServers": {
@@ -72,7 +92,7 @@ To use this MCP server with Claude Desktop, add it to your `claude_desktop_confi
 }
 ```
 
-*If you have Node.js installed* then Deno will be installed automatically
+~~*If you have Node.js installed* then Deno will be installed automatically~~
 ```json
 {
   "mcpServers": {
