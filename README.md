@@ -1,8 +1,8 @@
 # About this fork
 
 The goal of this fork is to simplify it for my own (the common?) use case.
-- Remove Python
-- Simplify and shorten some messages
+- [x] Remove Python
+- [ ] Simplify and shorten some messages
 
 # Deno Sandbox MCP Server
 

@@ -5,7 +5,6 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 import { runDenoScript } from './runDeno';
-import { runPythonScript } from './runPython';
 
 // Get the permissions from the command line arguments
 const permissionArgs = process.argv.slice(2);
@@ -53,39 +52,6 @@ server.tool(
   async ({ code }) => {
     try {
       const output = await runDenoScript(code, permissionArgs);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: output,
-          },
-        ],
-      };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Error: ${errorMessage}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-  }
-);
-
-// Add runPython tool
-server.tool(
-  'runPython',
-  `Executes Python using Pyodide in a Deno sandbox. Imports many commont packages automatically (e.g. numpy). Returns stdout; use print(...) to print results.\n\n${permissionsText}\n\nThere is an issue with file writing.  You need to run 'import js; js.fs.writeFileSync(PATH, CONTENT)'.  Other network and filesystem access works fine if you have permission`,
-  {
-    code: z.string().describe('Python code to execute in the sandbox'),
-  },
-  async ({ code }) => {
-    try {
-      const output = await runPythonScript(code, permissionArgs);
       return {
         content: [
           {
