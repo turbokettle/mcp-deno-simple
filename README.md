@@ -1,3 +1,9 @@
+# About this fork
+
+The goal of this fork is to simplify it for my own (the common?) use case.
+- Remove Python
+- Simplify and shorten some messages
+
 # Deno Sandbox MCP Server
 
 [![npm version](https://img.shields.io/npm/v/mcp-deno-sandbox.svg)](https://www.npmjs.com/package/mcp-deno-sandbox)
