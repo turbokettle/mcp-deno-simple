@@ -5,8 +5,14 @@ import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { DEFAULT_LOGGER, formatError, Logger } from './logging';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { runInstall } = require('deno/install_api.cjs');
+
 // Promisify execFile
 const execFileAsync = promisify(execFile);
+
+// Get path to deno executable from the npm package
+const denoBinaryPath: string = runInstall();
 
 // Set umask at the top level to ensure files are only accessible by the runner
 process.umask(0o077);
@@ -35,7 +41,7 @@ export async function runDenoScript(
 
     // Execute the script file with Deno
     const { stdout } = await execFileAsync(
-      'deno',
+      denoBinaryPath,
       [
         'run',
         '--node-modules-dir=auto', // Creates a new node_modules in tempDir into which dependencies are installed
