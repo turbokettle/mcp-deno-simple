@@ -8,16 +8,17 @@ import { runDenoScript } from './runDeno';
 
 // Get the permissions from the command line arguments
 const permissionArgs = process.argv.slice(2);
-const permissionsText =
-  permissionArgs.length > 0
-    ? `Current Deno Permissions:\n${permissionArgs.join('\n')}`
-    : 'No permissions currently enabled. Code will run in a very restricted sandbox.';
 
 // Create an MCP server using the higher-level McpServer class
 const server = new McpServer({
   name: 'DenoSandbox',
   version: '1.0.0',
 });
+
+const permissionsText =
+  permissionArgs.length > 0
+    ? `Current Deno Permissions:\n${permissionArgs.join('\n')}`
+    : 'No permissions currently enabled.';
 
 // Add a resource for Deno permissions
 server.resource('deno-permissions', 'permissions://deno', async (uri) => {
@@ -27,7 +28,7 @@ server.resource('deno-permissions', 'permissions://deno', async (uri) => {
         uri: uri.href,
         text: `${permissionsText}
 
-Deno supports the following additional permissions but these need to be configured before the server is started:
+Deno supports the following permissions (can be configured by the user before the session is started):
 --allow-read[=<PATH>...] or -R[=<PATH>...]
 --deny-read[=<PATH>...]
 --allow-write[=<PATH>...] or -W[=<PATH>...]
@@ -42,12 +43,16 @@ Deno supports the following additional permissions but these need to be configur
   };
 });
 
+const toolDescription = permissionArgs.length > 0
+  ? `Executes TypeScript/JavaScript code. Returns stdout - use console.log(...) or a temporary file to see results. Current Deno permissions: ${permissionArgs.join('; ')}`
+  : 'Executes TypeScript/JavaScript code in a sandboxed, safe, restricted environment. Returns stdout - use console.log(...) or a temporary file to see results.';
+
 // Add runTypescript tool
 server.tool(
   'runTypescript',
-  `Executes TypeScript/JavaScript code in a Deno sandbox. Returns stdout; use console.log(...) to print results.\n\n${permissionsText}`,
+  toolDescription,
   {
-    code: z.string().describe('TypeScript code to execute in the Deno sandbox'),
+    code: z.string().describe('Code to execute in the Deno sandbox'),
   },
   async ({ code }) => {
     try {

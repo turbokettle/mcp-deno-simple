@@ -14,7 +14,7 @@ export const DEFAULT_LOGGER: Logger = {
  * @returns A formatted error message
  */
 export function formatError(error: Error | string): string {
-  let errorMessage: string = error instanceof Error ? error.message : String(error);
+  const errorMessage: string = error instanceof Error ? error.message : String(error);
 
   // Check if it's a permission error
   if (errorMessage.includes('NotCapable')) {
