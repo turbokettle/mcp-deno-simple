@@ -6,8 +6,18 @@ import { z } from 'zod';
 
 import { runDenoScript } from './runDeno';
 
+// Expand --allow-read-cwd / --allow-write-cwd into --allow-read=<cwd> / --allow-write=<cwd>
+function expandCwdPermissions(args: string[]): string[] {
+  const cwd = process.cwd();
+  return args.map((arg) => {
+    if (arg === '--allow-read-cwd') return `--allow-read=${cwd}`;
+    if (arg === '--allow-write-cwd') return `--allow-write=${cwd}`;
+    return arg;
+  });
+}
+
 // Get the permissions from the command line arguments
-const permissionArgs = process.argv.slice(2);
+const permissionArgs = expandCwdPermissions(process.argv.slice(2));
 
 // Create an MCP server using the higher-level McpServer class
 const server = new McpServer({
